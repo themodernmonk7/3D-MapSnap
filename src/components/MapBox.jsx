@@ -2,8 +2,11 @@ import React, { useEffect, useRef, useState } from "react"
 import mapboxgl from "mapbox-gl"
 import { Link } from "react-router-dom"
 
-const mapbox_access_token = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
-mapboxgl.accessToken = mapbox_access_token
+// Import mapbox access token
+const MAPBOX_ACCESS_TOKEN = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
+
+mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN
+
 const MapBox = () => {
   const mapContainer = useRef(null)
   const map = useRef(null)
@@ -42,9 +45,7 @@ const MapBox = () => {
 
   // Take a screenshot of a map
   const takeScreenShot = async () => {
-    const response = await fetch(
-      `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${longitude},${latitude},${zoom}/400x400?access_token=${mapbox_access_token}`
-    )
+    const response = await fetch(`https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${longitude},${latitude},${zoom}/400x400?access_token=${MAPBOX_ACCESS_TOKEN}`)
     setImageURL(response.url)
     return response.url
   }

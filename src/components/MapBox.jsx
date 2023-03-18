@@ -20,6 +20,15 @@ const MapBox = () => {
       center: [longitude, latitude], //starting position [lng, lat]
       zoom: zoom, // starting zoom
     })
+    // Add the control to the map.
+    map.current.addControl(
+      new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+      })
+    )
+    // Add zoom and rotation controls to the map.
+    map.current.addControl(new mapboxgl.NavigationControl())
   }, [])
 
   useEffect(() => {
@@ -29,7 +38,7 @@ const MapBox = () => {
       setLatitude(map.current.getCenter().lat.toFixed(4))
       setZoom(map.current.getZoom().toFixed(2))
     })
-  })
+  }, [map.current])
 
   // Take a screenshot of a map
   const takeScreenShot = async () => {
@@ -42,12 +51,14 @@ const MapBox = () => {
 
   return (
     <>
-      <div className=" space-y-10 relative ">
-        <div className="sidebar">
+      <div className=" space-y-10 md:relative">
+        <div className=" sidebar">
           Longitude: {longitude} | Latitude: {latitude} | Zoom: {zoom}{" "}
         </div>
         <div ref={mapContainer} className="map-container" />
-        <div className=" absolute shadow-2xl w-[400px] h-[400px] inset-y-16 inset-x-1/3 border-4 border-white "></div>
+
+        {/* Visible region box */}
+        <div className=" absolute shadow-2xl md:w-[400px] md:h-[400px] border border-black/10 bg-transparent w-60 h-60 md:inset-x-1/3 md:inset-y-16 inset-y-1/4 inset-10 "></div>
 
         {/* Snapshot button */}
         <div className="flex flex-col justify-center items-center text-lg z-50 text-white space-y-5 ">

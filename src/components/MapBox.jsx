@@ -22,15 +22,15 @@ const MapBox = () => {
     })
   }, [])
 
-  // useEffect(() => {
-  //   if (!map.current) return // wait for map to initialize
-  //   map.current.on("move", () => {
-  //     setLongitude(map.current.getCenter().longitude?.toFixed(4))
-  //     setLatitude(map.current.getCenter().latitude?.toFixed(4))
-  //     setZoom(map.current.getZoom().toFixed(2))
-  //   })
-  //   console.log(longitude)
-  // }, [map.current])
+  //   useEffect(() => {
+  //     if (!map.current) return // wait for map to initialize
+  //     map.current.on("move", () => {
+  //       setLongitude(map.current.getCenter().longitude?.toFixed(4))
+  //       setLatitude(map.current.getCenter().latitude?.toFixed(4))
+  //       setZoom(map.current.getZoom().toFixed(2))
+  //     })
+  //     console.log(longitude)
+  //   }, [map.current])
 
   // Take a screenshot of a map
   const takeScreenShot = async () => {

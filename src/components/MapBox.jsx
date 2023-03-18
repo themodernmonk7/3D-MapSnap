@@ -22,15 +22,14 @@ const MapBox = () => {
     })
   }, [])
 
-  //   useEffect(() => {
-  //     if (!map.current) return // wait for map to initialize
-  //     map.current.on("move", () => {
-  //       setLongitude(map.current.getCenter().longitude?.toFixed(4))
-  //       setLatitude(map.current.getCenter().latitude?.toFixed(4))
-  //       setZoom(map.current.getZoom().toFixed(2))
-  //     })
-  //     console.log(longitude)
-  //   }, [map.current])
+  useEffect(() => {
+    if (!map.current) return // wait for map to initialize
+    map.current.on("move", () => {
+      setLongitude(map.current.getCenter().lng.toFixed(4))
+      setLatitude(map.current.getCenter().lat.toFixed(4))
+      setZoom(map.current.getZoom().toFixed(2))
+    })
+  })
 
   // Take a screenshot of a map
   const takeScreenShot = async () => {
@@ -48,6 +47,7 @@ const MapBox = () => {
           Longitude: {longitude} | Latitude: {latitude} | Zoom: {zoom}{" "}
         </div>
         <div ref={mapContainer} className="map-container" />
+        <div className=" absolute shadow-2xl w-[400px] h-[400px] inset-y-16 inset-x-1/3 border-4 border-white "></div>
 
         {/* Snapshot button */}
         <div className="flex flex-col justify-center items-center text-lg z-50 text-white space-y-5 ">

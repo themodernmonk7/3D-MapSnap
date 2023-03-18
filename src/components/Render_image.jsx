@@ -1,24 +1,26 @@
 import React, { useRef, useState } from "react"
-import { Engine, Scene } from "react-babylonjs"
-import { Vector3, Color3, Vector4 } from "@babylonjs/core"
+import { Engine, Scene, useClick, useBeforeRender } from "react-babylonjs"
+import { Vector3, Color3 } from "@babylonjs/core"
 import { Link, useLocation } from "react-router-dom"
 
-// var texture = new BABYLON.Texture(, scene);
-//     mat.diffuseTexture = texture;
-
-var columns = 6 // 6 columns
-var rows = 1 // 1 row
-
-//alien sprite
-var faceUV = new Array(6)
-
-//set all faces to same
-for (var i = 0; i < 6; i++) {
-  faceUV[i] = new Vector4(i / columns, 0, (i + 1) / columns, 1 / rows)
-}
+const DefaultScale = new Vector3(1, 1, 1)
+const BiggerScale = new Vector3(1.25, 1.25, 1.25)
 
 const SpinningBox = (props) => {
   const boxRef = useRef(null)
+  const [clicked, setClicked] = useState(false)
+  useClick(() => setClicked((clicked) => !clicked), boxRef)
+
+  // This will rotate the box on every Babylon frame.
+  const rpm = 5
+  useBeforeRender((scene) => {
+    if (boxRef.current) {
+      // Delta time smoothes the animation.
+      var deltaTimeInMillis = scene.getEngine().getDeltaTime()
+      boxRef.current.rotation.y +=
+        (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000)
+    }
+  })
 
   return (
     <box
@@ -26,10 +28,10 @@ const SpinningBox = (props) => {
       ref={boxRef}
       size={2}
       position={props.position}
+      scaling={clicked ? BiggerScale : DefaultScale}
       height={1}
       width={0.75}
       depth={0.25}
-      faceUV={faceUV}
       wrap
     >
       <standardMaterial>
@@ -39,22 +41,22 @@ const SpinningBox = (props) => {
   )
 }
 
-export const SceneWithSpinningBoxes = ({ imageURL }) => {
+export const SceneWithSpinningBoxes = () => {
   const location = useLocation()
   return (
-    <div>
+    <div className=" h-80 md:h-full ">
       <Engine antialias adaptToDeviceRatio canvasId="babylonJS">
         <Scene>
           <arcRotateCamera
             name="camera1"
             target={Vector3.Zero()}
             alpha={(3 * Math.PI) / 4}
-            beta={Math.PI / 4}
+            beta={Math.PI / 3}
             radius={2}
           />
           <hemisphericLight
             name="light1"
-            intensity={0.7}
+            intensity={1.2}
             direction={Vector3.Up()}
           />
           <SpinningBox

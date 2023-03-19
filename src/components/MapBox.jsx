@@ -45,7 +45,9 @@ const MapBox = () => {
 
   // Take a screenshot of a map
   const takeScreenShot = async () => {
-    const response = await fetch(`https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${longitude},${latitude},${zoom}/400x400?access_token=${MAPBOX_ACCESS_TOKEN}`)
+    const response = await fetch(
+      `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${longitude},${latitude},${zoom}/400x400?access_token=${MAPBOX_ACCESS_TOKEN}`
+    )
     setImageURL(response.url)
     return response.url
   }
@@ -56,11 +58,10 @@ const MapBox = () => {
         <div className=" sidebar">
           Longitude: {longitude} | Latitude: {latitude} | Zoom: {zoom}{" "}
         </div>
-        <div ref={mapContainer} className="map-container" />
-
+        <div ref={mapContainer} className="map-container" />{" "}
         {/* Visible region box */}
-        <div className=" absolute shadow-2xl md:w-[400px] md:h-[400px] border border-black/10 bg-transparent w-60 h-60 md:inset-x-1/3 md:inset-y-16 inset-y-1/4 inset-10 "></div>
-
+        <div className=" cursor-grab absolute shadow-2xl shadow-black/50 md:w-[400px] md:h-[400px] border border-black/10 bg-transparent w-60 h-60 md:inset-x-1/3 md:inset-y-16 inset-y-1/4 inset-10 pointer-events-none  "></div>
+        {/*   */}
         {/* Snapshot button */}
         <div className="flex flex-col justify-center items-center text-lg z-50 text-white space-y-5 ">
           <button
@@ -70,12 +71,10 @@ const MapBox = () => {
             Take a snapshot
           </button>
         </div>
-
         {/* Display screenshot image */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-5 place-items-center px-8 md:px-0">
           <img src={imageURL} alt="" />
         </div>
-
         {/* Render image into 3D button */}
         {imageURL && (
           <div className=" flex justify-center items-center ">

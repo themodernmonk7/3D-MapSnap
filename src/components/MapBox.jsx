@@ -5,8 +5,9 @@ import { Link } from "react-router-dom"
 // Import mapbox access token
 const MAPBOX_ACCESS_TOKEN = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
 
-mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN
 
+
+mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN
 const MapBox = () => {
   const mapContainer = useRef(null)
   const map = useRef(null)
@@ -54,40 +55,69 @@ const MapBox = () => {
 
   return (
     <>
-      <div className=" space-y-10 md:relative">
-        <div className=" sidebar">
-          Longitude: {longitude} | Latitude: {latitude} | Zoom: {zoom}{" "}
-        </div>
-        <div ref={mapContainer} className="map-container" />{" "}
+      <main className="">
+        <div ref={mapContainer} className=" h-screen" />{" "}
         {/* Visible region box */}
-        <div className=" cursor-grab absolute shadow-2xl shadow-black/50 md:w-[400px] md:h-[400px] border border-black/10 bg-transparent w-60 h-60 md:inset-x-1/3 md:inset-y-16 inset-y-1/4 inset-10 pointer-events-none  "></div>
+        <div className=" absolute inset-0 grid place-items-center pointer-events-none  ">
+          <div className=" cursor-grab absolute shadow-2xl shadow-black/50 w-64 h-1/3  md:w-1/2 md:h-1/2 xl:w-1/3 xl:h-1/2 border border-black/10 bg-transparent rounded   "></div>
+        </div>
         {/*   */}
         {/* Snapshot button */}
-        <div className="flex flex-col justify-center items-center text-lg z-50 text-white space-y-5 ">
+        <div className="z-50 space-y-5 absolute bottom-5 md:bottom-10 right-5  ">
           <button
+            title=" Capture the visible region "
             onClick={takeScreenShot}
-            className=" bg-blue-700 px-5 py-1 rounded-full font-medium "
+            className=" bg-white text-gray-600 shadow-xl border-2 border-gray-400/60 w-10 h-10 flex justify-center items-center rounded-md "
           >
-            Take a snapshot
-          </button>
-        </div>
-        {/* Display screenshot image */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-5 place-items-center px-8 md:px-0">
-          <img src={imageURL} alt="" />
-        </div>
-        {/* Render image into 3D button */}
-        {imageURL && (
-          <div className=" flex justify-center items-center ">
-            <Link
-              to="/render-3D-image"
-              state={{ imageURL }}
-              className="bg-blue-700 px-5 py-1 rounded-full font-medium"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
             >
-              Render into 3D Cuboid
-            </Link>
-          </div>
-        )}
-      </div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z"
+              />
+            </svg>
+          </button>
+          {/* Display screenshot image */}
+          {/* Render image into 3D button */}
+          {imageURL && (
+            <div className=" flex justify-center items-center ">
+              <Link
+                title="Render the Captured Image into 3D Cuboid Shape"
+                to="/render-3D-image"
+                state={{ imageURL }}
+                className="bg-white text-gray-600 shadow-xl border-2 border-gray-400/60 w-10 h-10 flex justify-center items-center rounded-md "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"
+                  />
+                </svg>
+              </Link>
+            </div>
+          )}
+        </div>
+      </main>
     </>
   )
 }
